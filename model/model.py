@@ -49,6 +49,6 @@ class Model:
         edgeGrandi.sort(key=lambda e: e[2]["weight"], reverse=True)
         return edgeGrandi
 
-    def getPath(self):
-        path = nx.dag_longest_path(self._graph)
+    def getPath(self,v0):
+        path = nx.dag_longest_path(self._graph,v0)
         return path

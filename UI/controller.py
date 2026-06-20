@@ -11,7 +11,7 @@ class Controller:
     def fillDDStores(self):
         stores = self._model.getAllStores()
         for s in stores:
-            self._view._ddStore.options.append(ft.dropdown.Option(s))
+            self._view._ddStore.options.append(ft.dropdown.Option(key=str(s.store_id), text=s.store_name))
         self._view.update_page()
 
     def handleCreaGrafo(self, e):
@@ -32,10 +32,27 @@ class Controller:
         self._view.txt_result.controls.append(
             ft.Text(f"Grafo correttamente creato. Il grafo contiene {n_nodi} nodi e {n_archi} archi")
         )
+        edges = self._model.getEdgeGrandi()
+        count = 0
+        self._view.txt_result.controls.append(ft.Text(f"Archi di peso maggiore:"))
+        for e in edges:
+            if count < 5:
+                self._view.txt_result.controls.append(
+                    ft.Text(f"{e[0]} --> {e[1]}: {e[2]["weight"]}")
+                )
+                count += 1
+        self._view._btnCerca.disabled = False
+        self._view._ddNode.disabled = False
         self._view.update_page()
 
     def handleCerca(self, e):
-        pass
+        self._view.txt_result.controls.clear()
+        v0 = int(self._view._ddNode.value)
+        path = self._model.getPath(v0)
+        self._view.txt_result.controls.append(ft.Text(f"Percorso più lungo:"))
+        for p in path:
+            self._view.txt_result.controls.append(f"{p}")
+        self._view.update_page()
 
     def handleRicorsione(self, e):
         pass
