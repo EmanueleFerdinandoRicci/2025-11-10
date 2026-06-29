@@ -75,6 +75,7 @@ class DAO():
         conn.close()
         return results
 
+
     @staticmethod
     def getAllQuantity(idMapO):
         conn = DBConnect.get_connection()
